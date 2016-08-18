@@ -5,6 +5,6 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 
 abstract class Renderable {
   
-  def render(model: AnyRef, markupFactory: MarkupFactory): NodeSeq
+  def render[T](model: AnyRef, markupFactory: MarkupFactory[T]): T
   
 }

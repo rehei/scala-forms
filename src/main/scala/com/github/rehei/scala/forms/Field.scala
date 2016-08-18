@@ -4,7 +4,6 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.util.ReflectUtil
 import com.github.rehei.scala.forms.binding.AbstractBinding
 
-
 class Field(val modelClazz: Class[_],
             val query: String,
             val binding: AbstractBinding) extends Renderable {
@@ -24,8 +23,8 @@ class Field(val modelClazz: Class[_],
     ReflectUtil.set(model, query, postProcessedValue)
   }
 
-  override def render(model: AnyRef, markupFactory: MarkupFactory) = {
-    <bla></bla>
+  def render[T](model: AnyRef, markupFactory: MarkupFactory[T]) = {
+    markupFactory.renderTextbox()
   }
 
 }

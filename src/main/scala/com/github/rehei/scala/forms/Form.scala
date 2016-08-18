@@ -13,7 +13,7 @@ class Form protected (val renderables: Renderable*) {
     this(List(): _*)
   }
 
-  def render(model: AnyRef, markupFactory: MarkupFactory): NodeSeq = {
+  def render[T](model: AnyRef, markupFactory: MarkupFactory[T]) = {
     val subRendering = new SubRendering(model, markupFactory, renderables: _*)
     markupFactory.renderForm(subRendering)
   }

@@ -5,12 +5,12 @@ import com.github.rehei.scala.forms.Section
 import com.github.rehei.scala.forms.SubRendering
 import scala.xml.NodeSeq
 
-trait MarkupFactory {
+trait MarkupFactory[T] {
 
-  def renderForm(subRendering: SubRendering): NodeSeq
+  def renderForm(subRendering: SubRendering[T]): T
 
-  def renderSection(subRendering: SubRendering): NodeSeq
+  def renderSection(subRendering: SubRendering[T]): T
 
-  def renderTextbox(): NodeSeq
+  def renderTextbox(): T
 
 }

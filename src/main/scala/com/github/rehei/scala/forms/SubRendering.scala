@@ -2,10 +2,10 @@ package com.github.rehei.scala.forms
 
 import com.github.rehei.scala.forms.markup.MarkupFactory
 
-class SubRendering(model: AnyRef, markupFactory: MarkupFactory, renderables: Renderable*) {
+class SubRendering[T](model: AnyRef, markupFactory: MarkupFactory[T], renderables: Renderable*) {
 
-  def render() = {
-    renderables.flatMap(_.render(model, markupFactory))
+  def render() : Seq[T] = {
+    renderables.map(_.render(model, markupFactory))
   }
 
 }

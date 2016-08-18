@@ -1,4 +1,4 @@
-package com.github.rehei.lift.forms.test
+package com.github.rehei.scala.forms.test
 
 import scala.reflect.runtime.universe
 
@@ -7,7 +7,7 @@ import org.junit.Test
 import com.github.rehei.scala.forms.Form
 import com.github.rehei.scala.forms.Section
 import com.github.rehei.scala.forms.binding.StringBinding
-import com.github.rehei.scala.forms.util.Conversions._
+import com.github.rehei.scala.forms.util.Conversions.queryToBindable
 import com.github.rehei.scala.macros.ReflectionMacros.$
 
 class SimpleFormTest {
@@ -26,7 +26,9 @@ class SimpleFormTest {
               .bindUsing(new StringBinding())))
 
               
-    println(form.render(model, new TestXMarkupFactory()))
+    val result = form.render(model, new TestMarkupFactory())
+              
+    println(form.render(model, new TestMarkupFactory()))
 
   }
 

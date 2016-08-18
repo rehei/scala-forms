@@ -6,6 +6,6 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 
 abstract class AbstractBinding {
 
-  def bind(context: Field, model: AnyRef, markupFactory: MarkupFactory): NodeSeq
+  def bind[T](context: Field, model: AnyRef, markupFactory: MarkupFactory[T]): T
 
 }

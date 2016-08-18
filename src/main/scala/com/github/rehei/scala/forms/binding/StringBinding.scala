@@ -6,7 +6,7 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 
 class StringBinding extends AbstractBinding {
 
-  override def bind(context: Field, model: AnyRef, markupFactory: MarkupFactory): NodeSeq = {
+  def bind[T](context: Field, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     markupFactory.renderTextbox()
   }
 
