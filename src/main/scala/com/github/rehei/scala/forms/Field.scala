@@ -24,7 +24,7 @@ class Field(val modelClazz: Class[_],
   }
 
   def render[T](model: AnyRef, markupFactory: MarkupFactory[T]) = {
-    markupFactory.renderTextbox()
+    binding.bind(this, model, markupFactory)
   }
 
 }

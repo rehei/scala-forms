@@ -6,9 +6,10 @@ import com.github.rehei.scala.forms.model.MyFormObject
 import com.github.rehei.scala.forms.model.MyForm
 import com.github.rehei.scala.forms.model.MySection
 import com.github.rehei.scala.forms.model.MyTextbox
+import com.github.rehei.scala.forms.model.MyInlineBinding
 
 class TestMarkupFactory extends MarkupFactory[MyFormObject] {
-  
+
   def renderForm(subRendering: SubRendering[MyFormObject]) = {
     MyForm(subRendering.render())
   }
@@ -19,6 +20,10 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
 
   def renderTextbox() = {
     MyTextbox()
+  }
+
+  def renderInline(elements: Seq[MyFormObject]) = {
+    MyInlineBinding(elements)
   }
 
 }

@@ -13,4 +13,6 @@ trait MarkupFactory[T] {
 
   def renderTextbox(): T
 
+  def renderInline(elements: Seq[T]): T
+
 }
