@@ -9,10 +9,10 @@ case class MySection(sub: MyFormObject) extends MyFormObject
 case class MyTextbox() extends MyFormObject
 case class MyInlineFrame(sub: MyFormObject, addButton: MyFormObject) extends MyFormObject
 case class MyInlineElement(sub: MyFormObject, removeButton: MyFormObject) extends MyFormObject
-case class MyInsertButton() extends MyFormObject
-case class MyRemoveButton() extends MyFormObject
+case class MyInsertButton(insertFunc: () => MyFormObject) extends MyFormObject
+case class MyRemoveButton(removeFunc: () => Unit) extends MyFormObject
 
-case class MySub(sub: Iterable[MyFormObject]) extends MyFormObject
+case class MySub(subs: MyFormObject*) extends MyFormObject
 
 class TestMarkupFactory extends MarkupFactory[MyFormObject] {
 
@@ -37,15 +37,15 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
   }
 
   def renderInsertButton(insertFunc: () => MyFormObject) = {
-    MyInsertButton()
+    MyInsertButton(insertFunc)
   }
 
   def renderRemoveButton(removeFunc: () => Unit) = {
-    MyRemoveButton()
+    MyRemoveButton(removeFunc)
   }
 
   def reduce(in: Iterable[MyFormObject]) = {
-    MySub(in)
+    MySub(in.toSeq: _*)
   }
 
 }

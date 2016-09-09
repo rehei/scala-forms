@@ -45,25 +45,30 @@ class SimpleFormTest {
               company(_.employees).bindUsing(new InlineBinding(employeeForm))))
 
     val result = form.render(model, new TestMarkupFactory())
-    val expected = {
-      MyForm(
-        list(
-          MySection(
-            list(
-              MyTextbox(),
-              MyTextbox(),
-              MyInlineFrame(
-                list(
-                  MyInlineElement(MyForm(list(MySection(list(MyTextbox())))), MyRemoveButton()),
-                  MyInlineElement(MyForm(list(MySection(list(MyTextbox())))), MyRemoveButton())),
-                MyInsertButton())))))
+    result match {
+      case (
+        MyForm(
+          MySub(
+            MySection(
+              MySub(
+                MyTextbox(),
+                MyTextbox(),
+                MyInlineFrame(
+                  MySub(
+                    MyInlineElement(MyForm(MySub(MySection(MySub(MyTextbox())))), MyRemoveButton(removeFunc1)),
+                    MyInlineElement(MyForm(MySub(MySection(MySub(MyTextbox())))), MyRemoveButton(removeFunc2))),
+                  MyInsertButton(insertFunc))))))) => {
+
+        removeFunc1()
+        removeFunc2()
+
+        assert(model.employees.isEmpty())
+
+        insertFunc()
+        assert(model.employees.size() == 1)
+
+      }
     }
-
-    assertEquals(result, expected)
-  }
-
-  def list(subs: MyFormObject*) = {
-    MySub(subs.toIterable)
   }
 
 }
