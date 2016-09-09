@@ -15,8 +15,8 @@ class Section protected (val renderables: Renderable*) extends Renderable {
   }
 
   def render[T](model: AnyRef, markupFactory: MarkupFactory[T]) = {
-    val subRendering = new SubRendering(model, markupFactory, renderables: _*)
-    markupFactory.renderSection(subRendering)
+    val sub = markupFactory.reduce(renderables.map(_.render(model, markupFactory)))
+    markupFactory.renderSection(sub)
   }
 
 }

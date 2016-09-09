@@ -16,12 +16,11 @@ import com.github.rehei.scala.forms.binding.InlineBinding
 import com.github.rehei.scala.macros.Reflection
 import com.github.rehei.scala.forms.test.model.Employee
 import com.github.rehei.scala.forms.test.model.Employee
-import com.github.rehei.scala.forms.model._
 
 class SimpleFormTest {
 
   @Test
-  def fu() {
+  def test() {
     val model = new Company()
     model.employees.add(new Employee())
     model.employees.add(new Employee())
@@ -47,17 +46,24 @@ class SimpleFormTest {
 
     val result = form.render(model, new TestMarkupFactory())
     val expected = {
-      MyForm(List(
-        MySection(List(
-          MyTextbox(),
-          MyTextbox(),
-          MyInlineBinding(List(
-            MyForm(List(MySection(List(MyTextbox())))),
-            MyForm(List(MySection(List(MyTextbox()))))))))))
+      MyForm(
+        list(
+          MySection(
+            list(
+              MyTextbox(),
+              MyTextbox(),
+              MyInlineFrame(
+                list(
+                  MyInlineElement(MyForm(list(MySection(list(MyTextbox())))), MyRemoveButton()),
+                  MyInlineElement(MyForm(list(MySection(list(MyTextbox())))), MyRemoveButton())),
+                MyInsertButton())))))
     }
 
     assertEquals(result, expected)
-    println(form.render(model, new TestMarkupFactory()))
+  }
+
+  def list(subs: MyFormObject*) = {
+    MySub(subs.toIterable)
   }
 
 }

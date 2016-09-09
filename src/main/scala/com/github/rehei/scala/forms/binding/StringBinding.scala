@@ -7,7 +7,7 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 class StringBinding extends AbstractBinding {
 
   def bind[T](context: Field, model: AnyRef, markupFactory: MarkupFactory[T]) = {
-    markupFactory.renderTextbox()
+    markupFactory.renderTextbox("bla")
   }
 
 }

@@ -2,17 +2,24 @@ package com.github.rehei.scala.forms.markup
 
 import com.github.rehei.scala.forms.Form
 import com.github.rehei.scala.forms.Section
-import com.github.rehei.scala.forms.SubRendering
 import scala.xml.NodeSeq
 
-trait MarkupFactory[T] {
+abstract class MarkupFactory[T] {
 
-  def renderForm(subRendering: SubRendering[T]): T
+  def renderForm(sub: T): T
 
-  def renderSection(subRendering: SubRendering[T]): T
+  def renderSection(sub: T): T
 
-  def renderTextbox(): T
+  def renderTextbox(label: String): T
 
-  def renderInline(elements: Seq[T]): T
+  def renderInlineFrame(sub: T, addButton: T): T
+
+  def renderInlineElement(sub: T, removeButton: T): T
+
+  def renderInsertButton(myInsertFunc: () => T): T
+  
+  def renderRemoveButton(myRemoveFunc: () => Unit): T
+  
+  def reduce(in: Iterable[T]): T
 
 }
