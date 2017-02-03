@@ -13,7 +13,11 @@ case class Validator protected (val assertions: Assertion*) {
   }
 
   def validate(model: AnyRef) = {
-    assertions.flatMap(_.validations).map(_.isValid(model, null))
+
+    for (assertion <- assertions; validation <- assertion.validations) {
+      println(validation.isValid(model, assertion.field))
+    }
+
   }
 
 }

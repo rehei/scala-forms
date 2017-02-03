@@ -11,7 +11,7 @@ object Conversions {
     Bindable(Class.forName(query.clazzName), query.propertyPath)
   }
   implicit def queryToAssert(query: Query) = {
-    Assertion()
+    Assertion(Class.forName(query.clazzName), query.propertyPath)
   }
 
 }
