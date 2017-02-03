@@ -1,5 +1,7 @@
 package com.github.rehei.scala.forms.validation
 
+import scala.collection.mutable.ListBuffer
+
 object Validator extends Validator()
 
 case class Validator protected (val assertions: Assertion*) {
@@ -14,10 +16,13 @@ case class Validator protected (val assertions: Assertion*) {
 
   def validate(model: AnyRef) = {
 
+    val buffer = ListBuffer[ValidationResult]()
+    
     for (assertion <- assertions; validation <- assertion.validations) {
-      println(validation.isValid(model, assertion.field))
+      buffer.append(validation.validate(model, assertion.field))
     }
 
+    buffer.toList
   }
 
 }

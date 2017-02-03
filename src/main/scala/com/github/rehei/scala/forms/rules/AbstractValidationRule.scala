@@ -1,8 +1,9 @@
-package com.github.rehei.scala.forms.validation
+package com.github.rehei.scala.forms.rules
 
 import com.github.rehei.scala.forms.Field
+import com.github.rehei.scala.forms.validation.Validation
 
-abstract class AbstractValidation {
+abstract class AbstractValidationRule {
 
   def isWrong(model: AnyRef, field: Field) = {
     !isValid(model, field)
@@ -11,7 +12,7 @@ abstract class AbstractValidation {
   def isValid(model: AnyRef, field: Field): Boolean
 
   def message(message: String) = {
-    Validation(isValid _, message)
+    Validation(this, message)
   }
 
 }

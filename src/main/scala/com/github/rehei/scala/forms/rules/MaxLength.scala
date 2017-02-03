@@ -1,9 +1,8 @@
-package com.github.rehei.scala.forms.validators
+package com.github.rehei.scala.forms.rules
 
-import com.github.rehei.scala.forms.validation.AbstractValidation
 import com.github.rehei.scala.forms.Field
 
-case class MaxLength(val sizeInclusive: Int) extends AbstractValidation {
+case class MaxLength(val sizeInclusive: Int) extends AbstractValidationRule {
 
   override def isValid(model: AnyRef, field: Field): Boolean = {
     field.getter(model) match {

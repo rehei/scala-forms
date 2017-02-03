@@ -1,15 +1,19 @@
 package com.github.rehei.scala.forms.validation
 
 import com.github.rehei.scala.forms.Field
+import com.github.rehei.scala.forms.rules.AbstractValidationRule
 
-case class Validation (val validateFunc: (AnyRef, Field) => Boolean, val message: String) {
+case class Validation(val validationRule: AbstractValidationRule, val defaultMessage: String) {
 
-  def this(validateFunc: (AnyRef, Field) => Boolean) = this(validateFunc, "")
+  def validate(model: AnyRef, field: Field) = {
+    val valid = this.isValid(model, field)
+    val message = if (valid) { "" } else { defaultMessage }
 
-  def isValid(model: AnyRef, field: Field) = {
-    validateFunc(model, field)
+    ValidationResult(field.query, validationRule.getClass.getCanonicalName, valid, message)
   }
 
-  def isWrong(model: AnyRef, field: Field) = !isValid(model, field)
+  protected def isValid(model: AnyRef, field: Field) = {
+    validationRule.isValid(model, field)
+  }
 
 }

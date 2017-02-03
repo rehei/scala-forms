@@ -1,9 +1,8 @@
-package com.github.rehei.scala.forms.validators
+package com.github.rehei.scala.forms.rules
 
 import com.github.rehei.scala.forms.Field
-import com.github.rehei.scala.forms.validation.AbstractValidation
 
-case class IsTrue() extends AbstractValidation {
+case class IsTrue() extends AbstractValidationRule {
 
   def isValid(model: AnyRef, field: Field): Boolean = {
     field.getter(model) != null && field.getter(model) == true
