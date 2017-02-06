@@ -7,6 +7,8 @@ import scala.xml.NodeSeq
 import scala.xml.Text
 import scala.language.existentials
 import scala.reflect.runtime.universe._
+import com.github.rehei.scala.forms.decorators.FieldDecorator
+import com.github.rehei.scala.forms.decorators.LabelDecorator
 
 class Field protected (val modelClazz: Class[_],
                        val query: String,
@@ -32,6 +34,14 @@ class Field protected (val modelClazz: Class[_],
     ReflectUtil.set(model, query, postProcessedValue)
   }
 
+  def label() = {
+    getDecorator[LabelDecorator].map(_.label)
+  }
+  
+  def label(label: String) = {
+    this.decorateWith(LabelDecorator(label))
+  }
+  
   def decorateWith[T <: FieldDecorator](decorator: T)(implicit tag: TypeTag[T]): Field = {
     val keyValue = (tag.tpe, decorator)
     val newDecorators = decorators + keyValue
