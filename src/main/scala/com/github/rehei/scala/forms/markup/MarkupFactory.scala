@@ -5,7 +5,7 @@ import com.github.rehei.scala.forms.Field
 
 abstract class MarkupFactory[T] {
 
-  def renderForm(sub: T): T
+  def renderForm(sub: T, callback: () => Unit): T
 
   def renderSection(sub: T): T
 

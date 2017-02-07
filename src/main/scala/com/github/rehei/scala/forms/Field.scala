@@ -36,6 +36,10 @@ class Field(val modelClazz: Class[_],
   def getFirstParameterizedTypeArgument(): Class[_] = {
     ReflectUtil.getFirstParameterizedTypeArgument(rawMethod)
   }
+  
+  def getFieldType(): Class[_] = {
+    rawMethod.getReturnType
+  }
 
 }
   
