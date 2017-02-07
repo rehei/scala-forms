@@ -16,6 +16,7 @@ import com.github.rehei.scala.macros.Reflection
 import com.github.rehei.scala.forms.test.model.Employee
 import com.github.rehei.scala.forms.test.model.Employee
 import com.github.rehei.scala.forms.binding.TextField
+import com.github.rehei.scala.forms.validation.NoValidator
 
 class SimpleFormTest {
 
@@ -44,7 +45,7 @@ class SimpleFormTest {
             .attach(
               company(_.employees).bindUsing(new InlineBinding(employeeForm))))
 
-    val result = form.render(model, new TestMarkupFactory(), () => Unit)
+    val result = form.render(model, NoValidator, new TestMarkupFactory(), () => Unit)
     result match {
       case (
         MyForm(

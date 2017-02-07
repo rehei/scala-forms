@@ -4,6 +4,7 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import scala.xml.NodeSeq
+import com.github.rehei.scala.forms.validation.Validator
 
 object Form extends Form()
 
@@ -13,9 +14,9 @@ class Form protected (val renderables: Renderable*) {
     this(List(): _*)
   }
 
-  def render[T](model: AnyRef, markupFactory: MarkupFactory[T], callback: () => Unit) = {
+  def render[T](model: AnyRef, validator: Validator, markupFactory: MarkupFactory[T], callback: () => Unit) = {
     val sub = markupFactory.reduce(renderables.map(_.render(model, markupFactory)))
-    markupFactory.renderForm(sub, callback)
+    markupFactory.renderForm(model, validator, sub, callback)
   }
 
   def attach(renderable: Renderable) = {

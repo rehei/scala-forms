@@ -1,7 +1,7 @@
 package com.github.rehei.scala.forms.binding
 
 import com.github.rehei.scala.forms.markup.MarkupFactory
-import com.github.rehei.scala.forms.Field
+import com.github.rehei.scala.forms.Bindable
 import com.github.rehei.scala.forms.decorators.MaxDecorator
 import com.github.rehei.scala.forms.decorators.AutoSizeDecorator
 import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
@@ -9,7 +9,7 @@ import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
 
 case class TextField() extends AbstractBinding[TextField] {
 
-  def bind[T](context: Field, model: AnyRef, markupFactory: MarkupFactory[T]) = {
+  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     markupFactory.renderBinding(context, model, this)
   }
 

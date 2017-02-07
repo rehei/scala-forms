@@ -4,7 +4,7 @@ import scala.collection.JavaConversions._
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 
-import com.github.rehei.scala.forms.Field
+import com.github.rehei.scala.forms.Bindable
 import com.github.rehei.scala.forms.Form
 import com.github.rehei.scala.forms.Renderable
 import com.github.rehei.scala.forms.markup.MarkupFactory
@@ -12,7 +12,7 @@ import com.github.rehei.scala.forms.util.ReflectUtil
 
 class InlineBinding(form: Form) extends AbstractBinding {
 
-  def bind[T](context: Field, model: AnyRef, markupFactory: MarkupFactory[T]) = {
+  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]
 
     def insertFunc = {
@@ -35,10 +35,10 @@ class InlineBinding(form: Form) extends AbstractBinding {
   }
 
   def renderInlineElement[T](markupFactory: MarkupFactory[T], value: AnyRef, removeFunc: () => Unit) = {
-    markupFactory.renderInlineElement(form.render(value, markupFactory, () => { println("test") }), markupFactory.renderRemoveButton(removeFunc))
+    markupFactory.renderInlineElement(form.render(value, null, markupFactory, () => { println("test") }), markupFactory.renderRemoveButton(removeFunc))
   }
 
-  def getSubModelClazz(context: Field) = {
+  def getSubModelClazz(context: Bindable) = {
     context.getFirstParameterizedTypeArgument()
   }
 

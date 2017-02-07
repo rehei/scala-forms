@@ -3,7 +3,8 @@ package com.github.rehei.scala.forms.test
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.binding.TextField
 import com.github.rehei.scala.forms.binding.AbstractBinding
-import com.github.rehei.scala.forms.Field
+import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.validation.Validator
 
 sealed abstract class MyFormObject
 
@@ -19,7 +20,7 @@ case class MySub(subs: MyFormObject*) extends MyFormObject
 
 class TestMarkupFactory extends MarkupFactory[MyFormObject] {
 
-  override def renderForm(sub: MyFormObject, callback: () => Unit) = {
+  override def renderForm(model: AnyRef, validator: Validator, sub: MyFormObject, callback: () => Unit) = {
     MyForm(sub)
   }
 
@@ -27,7 +28,7 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
     MySection(sub)
   }
 
-  def renderBinding(context: Field, model: AnyRef, binding: AbstractBinding[_]) = {
+  def renderBinding(context: Bindable, model: AnyRef, binding: AbstractBinding[_]) = {
     MyTextbox()
   }
 
