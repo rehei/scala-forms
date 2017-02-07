@@ -1,6 +1,9 @@
 package com.github.rehei.scala.forms.test
 
 import com.github.rehei.scala.forms.markup.MarkupFactory
+import com.github.rehei.scala.forms.binding.TextField
+import com.github.rehei.scala.forms.binding.AbstractBinding
+import com.github.rehei.scala.forms.Field
 
 sealed abstract class MyFormObject
 
@@ -24,11 +27,11 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
     MySection(sub)
   }
 
-  override def renderTextbox(label: String) = {
+  def renderBinding(context: Field, model: AnyRef, binding: AbstractBinding[_]) = {
     MyTextbox()
   }
 
- override  def renderInlineFrame(sub: MyFormObject, addButton: MyFormObject) = {
+  override def renderInlineFrame(sub: MyFormObject, addButton: MyFormObject) = {
     MyInlineFrame(sub, addButton)
   }
 

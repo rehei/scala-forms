@@ -8,7 +8,6 @@ import org.junit.Assert._
 
 import com.github.rehei.scala.forms.Form
 import com.github.rehei.scala.forms.Section
-import com.github.rehei.scala.forms.binding.StringBinding
 import com.github.rehei.scala.forms.test.model.Company;
 import com.github.rehei.scala.forms.util.Conversions.queryToBindable
 import com.github.rehei.scala.macros.ReflectionMacros.$
@@ -16,6 +15,7 @@ import com.github.rehei.scala.forms.binding.InlineBinding
 import com.github.rehei.scala.macros.Reflection
 import com.github.rehei.scala.forms.test.model.Employee
 import com.github.rehei.scala.forms.test.model.Employee
+import com.github.rehei.scala.forms.binding.TextField
 
 class SimpleFormTest {
 
@@ -31,16 +31,16 @@ class SimpleFormTest {
     val employeeForm =
       Form
         .attach(
-          Section.attach(employee(_.name).bindUsing(new StringBinding())))
+          Section.attach(employee(_.name).bindUsing(TextField())))
 
     val form =
       Form
         .attach(
           Section
             .attach(
-              company(_.name).bindUsing(new StringBinding()))
+              company(_.name).bindUsing(TextField()))
             .attach(
-              company(_.name).bindUsing(new StringBinding()))
+              company(_.name).bindUsing(TextField()))
             .attach(
               company(_.employees).bindUsing(new InlineBinding(employeeForm))))
 

@@ -1,8 +1,7 @@
 package com.github.rehei.scala.forms.markup
 
-import com.github.rehei.scala.forms.Form
-import com.github.rehei.scala.forms.Section
-import scala.xml.NodeSeq
+import com.github.rehei.scala.forms.binding.AbstractBinding
+import com.github.rehei.scala.forms.Field
 
 abstract class MarkupFactory[T] {
 
@@ -10,7 +9,7 @@ abstract class MarkupFactory[T] {
 
   def renderSection(sub: T): T
 
-  def renderTextbox(label: String): T
+  def renderBinding(context: Field, model: AnyRef, binding: AbstractBinding[_]): T
 
   def renderInlineFrame(sub: T, addButton: T): T
 

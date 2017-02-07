@@ -10,14 +10,9 @@ import scala.reflect.runtime.universe._
 import com.github.rehei.scala.forms.decorators.FieldDecorator
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 
-class Field protected (val modelClazz: Class[_],
-                       val query: String,
-                       val binding: AbstractBinding,
-                       private val decorators: Map[Type, FieldDecorator]) extends Renderable {
-
-  def this(modelClazz: Class[_], query: String, binding: AbstractBinding) = {
-    this(modelClazz, query, binding, Map[Type, FieldDecorator]())
-  }
+class Field(val modelClazz: Class[_],
+            val query: String,
+            val binding: AbstractBinding[_]) extends Renderable {
 
   private val rawMethod = ReflectUtil.getGetterMethod(modelClazz, query)
   val getter = (model: AnyRef) => ReflectUtil.get(model, query)
@@ -32,24 +27,6 @@ class Field protected (val modelClazz: Class[_],
     }
 
     ReflectUtil.set(model, query, postProcessedValue)
-  }
-
-  def label() = {
-    getDecorator[LabelDecorator].map(_.label)
-  }
-  
-  def label(label: String) = {
-    this.decorateWith(LabelDecorator(label))
-  }
-  
-  def decorateWith[T <: FieldDecorator](decorator: T)(implicit tag: TypeTag[T]): Field = {
-    val keyValue = (tag.tpe, decorator)
-    val newDecorators = decorators + keyValue
-    new Field(modelClazz, query, binding, newDecorators)
-  }
-
-  def getDecorator[T <: FieldDecorator](implicit tag: TypeTag[T]): Option[T] = {
-    decorators.get(tag.tpe).map { _.asInstanceOf[T] }
   }
 
   def render[T](model: AnyRef, markupFactory: MarkupFactory[T]) = {
