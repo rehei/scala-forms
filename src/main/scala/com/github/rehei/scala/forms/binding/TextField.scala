@@ -2,7 +2,6 @@ package com.github.rehei.scala.forms.binding
 
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.Bindable
-import com.github.rehei.scala.forms.decorators.MaxDecorator
 import com.github.rehei.scala.forms.decorators.AutoSizeDecorator
 import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
 import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
@@ -19,14 +18,6 @@ case class TextField() extends AbstractBinding[TextField] {
   
   def placeholder() = {
     this.getDecorator[PlaceholderDecorator].map(_.placeholder)
-  }
-  
-  def maxLength(maxLength: Int) = {
-    this.decorateWith(MaxDecorator(maxLength))
-  }
-  
-  def maxLength() = {
-    this.getDecorator[MaxDecorator].map(_.max).getOrElse(0)
   }
   
   def autosize(enable: Boolean) = {

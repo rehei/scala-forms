@@ -10,7 +10,7 @@ import com.github.rehei.scala.forms.Renderable
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.util.ReflectUtil
 
-class InlineBinding(form: Form) extends AbstractBinding {
+class InlineBinding(val form: Form) extends AbstractBinding {
 
   def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]

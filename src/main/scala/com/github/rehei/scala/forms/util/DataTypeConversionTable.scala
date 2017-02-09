@@ -6,7 +6,7 @@ import scala.reflect.runtime.universe._
 import java.util.HashMap
 import scala.reflect.ClassTag
 
-object DataTypeConversionTable {
+class DataTypeConversionTable {
 
   protected val convert: HashMap[Class[_], (String) => _] = new HashMap[Class[_], (String) => _]()
 
