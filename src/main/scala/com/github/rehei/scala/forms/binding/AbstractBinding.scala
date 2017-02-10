@@ -3,7 +3,6 @@ package com.github.rehei.scala.forms.binding
 import scala.collection.mutable.ListBuffer
 
 import com.github.rehei.scala.forms.Bindable
-import com.github.rehei.scala.forms.decorators.FieldDecorator
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 import com.github.rehei.scala.forms.markup.MarkupFactory
@@ -12,14 +11,13 @@ import scala.xml.NodeSeq
 import scala.xml.Text
 import scala.language.existentials
 import scala.reflect.runtime.universe._
-import com.github.rehei.scala.forms.decorators.FieldDecorator
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 
 abstract class AbstractBinding[X <: AbstractBinding[_]] {
 
-  private var decorators: Map[Type, FieldDecorator] = Map[Type, FieldDecorator]()
+  private var decorators: Map[Type, AnyRef] = Map[Type, AnyRef]()
 
-  protected def injectDecorators(injectable: Map[Type, FieldDecorator]) {
+  protected def injectDecorators(injectable: Map[Type, AnyRef]) {
     this.decorators = injectable
   }
 
@@ -33,7 +31,7 @@ abstract class AbstractBinding[X <: AbstractBinding[_]] {
     this.decorateWith(LabelDecorator(label))
   }
 
-  def decorateWith[T <: FieldDecorator](decorator: T)(implicit tag: TypeTag[T]): X = {
+  def decorateWith[T <: AnyRef](decorator: T)(implicit tag: TypeTag[T]): X = {
     val keyValue = (tag.tpe, decorator)
     val newDecorators = decorators + keyValue
 
@@ -42,7 +40,7 @@ abstract class AbstractBinding[X <: AbstractBinding[_]] {
     copy
   }
 
-  def getDecorator[T <: FieldDecorator](implicit tag: TypeTag[T]): Option[T] = {
+  def getDecorator[T <: AnyRef](implicit tag: TypeTag[T]): Option[T] = {
     decorators.get(tag.tpe).map { _.asInstanceOf[T] }
   }
 

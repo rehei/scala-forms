@@ -1,3 +1,3 @@
 package com.github.rehei.scala.forms.decorators
 
-case class AutoSizeDecorator(autoSize: Boolean) extends FieldDecorator
+case class AutoSizeDecorator(autoSize: Boolean)

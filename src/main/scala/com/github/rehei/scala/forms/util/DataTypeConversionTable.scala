@@ -1,6 +1,5 @@
 package com.github.rehei.scala.forms.util
 
-import com.github.rehei.scala.forms.decorators.FieldDecorator
 import scala.language.existentials
 import scala.reflect.runtime.universe._
 import java.util.HashMap

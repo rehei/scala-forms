@@ -7,7 +7,6 @@ import scala.xml.NodeSeq
 import scala.xml.Text
 import scala.language.existentials
 import scala.reflect.runtime.universe._
-import com.github.rehei.scala.forms.decorators.FieldDecorator
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 
 class Bindable(val modelClazz: Class[_],
