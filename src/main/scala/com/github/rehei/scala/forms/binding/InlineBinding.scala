@@ -39,7 +39,9 @@ class InlineBinding(val form: Form) extends AbstractBinding {
   }
 
   def renderInlineElement[T](markupFactory: MarkupFactory[T], inlineMarkupFactory: AbstractInlineMarkupFactory[T], value: AnyRef, removeFunc: () => Unit) = {
-    inlineMarkupFactory.renderInlineElement(form.render(value, null, markupFactory, () => { println("test") }), inlineMarkupFactory.renderRemoveButton(removeFunc))
+    inlineMarkupFactory.renderInlineElement(
+        form.render(value, null, markupFactory, () => { println("test") }, false), 
+        inlineMarkupFactory.renderRemoveButton(removeFunc))
   }
 
   def getSubModelClazz(context: Bindable) = {

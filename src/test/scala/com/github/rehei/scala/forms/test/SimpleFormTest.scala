@@ -45,7 +45,7 @@ class SimpleFormTest {
             .attach(
               company(_.employees).bindUsing(new InlineBinding(employeeForm))))
 
-    val result = form.render(model, NoValidator, new TestMarkupFactory(), () => Unit)
+    val result = form.render(model, NoValidator, new TestMarkupFactory(), () => Unit, true)
     result match {
       case (
         MyForm(

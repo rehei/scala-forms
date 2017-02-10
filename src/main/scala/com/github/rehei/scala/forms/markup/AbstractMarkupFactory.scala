@@ -6,7 +6,7 @@ import com.github.rehei.scala.forms.validation.Validator
 
 abstract class MarkupFactory[T] {
 
-  def renderForm(model: AnyRef, validator: Validator, sub: T, callback: () => Unit): T
+  def renderForm(model: AnyRef, validator: Validator, sub: T, callback: () => Unit, isRootForm: Boolean): T
 
   def renderSection(sub: T): T
 

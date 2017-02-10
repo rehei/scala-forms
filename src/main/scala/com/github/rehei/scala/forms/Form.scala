@@ -14,9 +14,9 @@ class Form protected (val renderables: Renderable*) {
     this(List(): _*)
   }
 
-  def render[T](model: AnyRef, validator: Validator, markupFactory: MarkupFactory[T], callback: () => Unit) = {
+  def render[T](model: AnyRef, validator: Validator, markupFactory: MarkupFactory[T], callback: () => Unit, isRootForm: Boolean) = {
     val sub = markupFactory.reduce(renderables.map(_.render(model, markupFactory)))
-    markupFactory.renderForm(model, validator, sub, callback)
+    markupFactory.renderForm(model, validator, sub, callback, isRootForm)
   }
 
   def attach(renderable: Renderable) = {
