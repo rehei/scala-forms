@@ -21,7 +21,9 @@ abstract class AbstractBinding[X <: AbstractBinding[_]] {
     this.decorators = injectable
   }
 
-  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]): T
+  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]): T = {
+    markupFactory.renderBinding(context, model, this)
+  }
 
   def label() = {
     getDecorator[LabelDecorator].map(_.label)

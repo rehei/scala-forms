@@ -12,14 +12,8 @@ abstract class MarkupFactory[T] {
 
   def renderBinding(context: Bindable, model: AnyRef, binding: AbstractBinding[_]): T
 
-  def renderInlineFrame(sub: T, addButton: T): T
+  def getInlineMarkupFactory(): AbstractInlineMarkupFactory[T]
 
-  def renderInlineElement(sub: T, removeButton: T): T
-
-  def renderInsertButton(myInsertFunc: () => T): T
-  
-  def renderRemoveButton(myRemoveFunc: () => Unit): T
-  
   def reduce(in: Iterable[T]): T
 
 }

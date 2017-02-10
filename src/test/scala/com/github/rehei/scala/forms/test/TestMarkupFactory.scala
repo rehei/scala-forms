@@ -5,6 +5,7 @@ import com.github.rehei.scala.forms.binding.TextField
 import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.Bindable
 import com.github.rehei.scala.forms.validation.Validator
+import com.github.rehei.scala.forms.binding.InlineBinding
 
 sealed abstract class MyFormObject
 
@@ -32,20 +33,8 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
     MyTextbox()
   }
 
-  override def renderInlineFrame(sub: MyFormObject, addButton: MyFormObject) = {
-    MyInlineFrame(sub, addButton)
-  }
-
-  def renderInlineElement(sub: MyFormObject, removeButton: MyFormObject) = {
-    MyInlineElement(sub, removeButton)
-  }
-
-  def renderInsertButton(insertFunc: () => MyFormObject) = {
-    MyInsertButton(insertFunc)
-  }
-
-  def renderRemoveButton(removeFunc: () => Unit) = {
-    MyRemoveButton(removeFunc)
+  def getInlineMarkupFactory() = {
+    new TestInlineMarkupFactory()
   }
 
   def reduce(in: Iterable[MyFormObject]) = {

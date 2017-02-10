@@ -8,10 +8,6 @@ import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
 
 case class TextField() extends AbstractBinding[TextField] {
 
-  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
-    markupFactory.renderBinding(context, model, this)
-  }
-
   def placeholder(placeholder: String) = {
     this.decorateWith(PlaceholderDecorator(placeholder))
   }
