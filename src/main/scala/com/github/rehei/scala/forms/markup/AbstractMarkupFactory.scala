@@ -12,7 +12,7 @@ abstract class MarkupFactory[T] {
 
   def renderBinding(context: Bindable, model: AnyRef, binding: AbstractBinding[_]): T
 
-  def getInlineMarkupFactory(): AbstractInlineMarkupFactory[T]
+  def createInlineMarkupFactory(): AbstractInlineMarkupFactory[T]
 
   def reduce(in: Iterable[T]): T
 

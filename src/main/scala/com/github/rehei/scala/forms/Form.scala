@@ -5,22 +5,27 @@ import com.github.rehei.scala.forms.markup.MarkupFactory
 import com.github.rehei.scala.forms.markup.MarkupFactory
 import scala.xml.NodeSeq
 import com.github.rehei.scala.forms.validation.Validator
+import com.github.rehei.scala.forms.validation.NoValidator
 
 object Form extends Form()
 
-class Form protected (val renderables: Renderable*) {
+class Form protected (val validator: Validator, val renderables: Renderable*) {
 
   def this() = {
-    this(List(): _*)
+    this(NoValidator, List(): _*)
   }
 
-  def render[T](model: AnyRef, validator: Validator, markupFactory: MarkupFactory[T], callback: () => Unit, isRootForm: Boolean) = {
+  def render[T](model: AnyRef,  markupFactory: MarkupFactory[T], callback: () => Unit, isRootForm: Boolean) = {
     val sub = markupFactory.reduce(renderables.map(_.render(model, markupFactory)))
     markupFactory.renderForm(model, validator, sub, callback, isRootForm)
   }
 
   def attach(renderable: Renderable) = {
-    new Form((renderables :+ renderable): _*)
+    new Form(validator, (renderables :+ renderable): _*)
+  } 
+  
+  def validateWith(validator: Validator) = {
+    new Form(validator, renderables: _*)
   } 
   
 }

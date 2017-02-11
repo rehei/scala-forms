@@ -15,7 +15,7 @@ class InlineBinding(val form: Form) extends AbstractBinding {
 
   override def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]
-    val inlineMarkupFactory = markupFactory.getInlineMarkupFactory()
+    val inlineMarkupFactory = markupFactory.createInlineMarkupFactory()
 
     def insertFunc = {
       val value = ReflectUtil.create(getSubModelClazz(context)).asInstanceOf[AnyRef]
@@ -41,7 +41,7 @@ class InlineBinding(val form: Form) extends AbstractBinding {
 
   def renderInlineElement[T](markupFactory: MarkupFactory[T], inlineMarkupFactory: AbstractInlineMarkupFactory[T], value: AnyRef, removeFunc: () => Unit) = {
     inlineMarkupFactory.renderInlineElement(
-      form.render(value, null, markupFactory, () => { println("test") }, false),
+      form.render(value, markupFactory, () => { println("test") }, false),
       removeFunc)
   }
 

@@ -33,7 +33,7 @@ class TestMarkupFactory extends MarkupFactory[MyFormObject] {
     MyTextbox()
   }
 
-  def getInlineMarkupFactory() = {
+  def createInlineMarkupFactory() = {
     new TestInlineMarkupFactory()
   }
 
