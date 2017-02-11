@@ -16,7 +16,7 @@ class InlineBinding(val form: Form) extends AbstractBinding {
   override def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]
     val inlineMarkupFactory = markupFactory.getInlineMarkupFactory()
-    
+
     def insertFunc = {
       val value = ReflectUtil.create(getSubModelClazz(context)).asInstanceOf[AnyRef]
       collection.add(value)
@@ -31,17 +31,18 @@ class InlineBinding(val form: Form) extends AbstractBinding {
   }
 
   def renderInlineFrame[T](markupFactory: MarkupFactory[T], inlineMarkupFactory: AbstractInlineMarkupFactory[T], collection: java.util.Collection[AnyRef], addFunc: () => T, removeFunc: (AnyRef) => Unit) = {
-    
+
     inlineMarkupFactory.renderInlineFrame(
-      markupFactory.reduce(collection.map
-          (value => renderInlineElement(markupFactory, inlineMarkupFactory, value, () => removeFunc(value)))),
-      inlineMarkupFactory.renderInsertButton(addFunc))
+      markupFactory.reduce(
+        collection.map(
+          value => renderInlineElement(markupFactory, inlineMarkupFactory, value, () => removeFunc(value)))),
+      addFunc)
   }
 
   def renderInlineElement[T](markupFactory: MarkupFactory[T], inlineMarkupFactory: AbstractInlineMarkupFactory[T], value: AnyRef, removeFunc: () => Unit) = {
     inlineMarkupFactory.renderInlineElement(
-        form.render(value, null, markupFactory, () => { println("test") }, false), 
-        inlineMarkupFactory.renderRemoveButton(removeFunc))
+      form.render(value, null, markupFactory, () => { println("test") }, false),
+      removeFunc)
   }
 
   def getSubModelClazz(context: Bindable) = {
