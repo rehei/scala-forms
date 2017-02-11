@@ -4,7 +4,7 @@ import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.Bindable
 import com.github.rehei.scala.forms.validation.Validator
 
-abstract class MarkupFactory[T] {
+abstract class AbstractMarkupFactory[T] {
 
   def renderForm(model: AnyRef, validator: Validator, sub: T, callback: () => Unit, isRootForm: Boolean): T
 

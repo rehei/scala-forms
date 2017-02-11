@@ -1,6 +1,6 @@
 package com.github.rehei.scala.forms.test
 
-import com.github.rehei.scala.forms.markup.MarkupFactory
+import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
 import com.github.rehei.scala.forms.binding.TextField
 import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.Bindable
@@ -19,7 +19,7 @@ case class MyRemoveButton(removeFunc: () => Unit) extends MyFormObject
 
 case class MySub(subs: MyFormObject*) extends MyFormObject
 
-class TestMarkupFactory extends MarkupFactory[MyFormObject] {
+class TestMarkupFactory extends AbstractMarkupFactory[MyFormObject] {
 
   override def renderForm(model: AnyRef, validator: Validator, sub: MyFormObject, callback: () => Unit, isRootForm: Boolean) = {
     MyForm(sub)

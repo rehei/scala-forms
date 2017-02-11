@@ -3,9 +3,9 @@ package com.github.rehei.scala.forms.binding
 import scala.collection.mutable.ListBuffer
 
 import com.github.rehei.scala.forms.Bindable
-import com.github.rehei.scala.forms.markup.MarkupFactory
+import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
 import com.github.rehei.scala.forms.decorators.LabelDecorator
-import com.github.rehei.scala.forms.markup.MarkupFactory
+import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
 import com.github.rehei.scala.forms.util.ReflectUtil
 import scala.xml.NodeSeq
 import scala.xml.Text
@@ -21,7 +21,7 @@ abstract class AbstractBinding[X <: AbstractBinding[_]] {
     this.decorators = injectable
   }
 
-  def bind[T](context: Bindable, model: AnyRef, markupFactory: MarkupFactory[T]): T = {
+  def bind[T](context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]): T = {
     markupFactory.renderBinding(context, model, this)
   }
 
