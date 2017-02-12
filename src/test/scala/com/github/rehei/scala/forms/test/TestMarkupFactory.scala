@@ -20,7 +20,7 @@ case class MySub(subs: MyFormObject*) extends MyFormObject
 
 class TestMarkupFactory extends AbstractMarkupFactory[MyFormObject] {
 
-  override def renderForm(validationObservable: AbstractValidationObservable, model: AnyRef, sub: MyFormObject, callback: () => Unit, isRootForm: Boolean) = {
+  override def renderForm(validationObservable: AbstractValidationObservable, model: AnyRef, sub: MyFormObject, beforeDataBound: () => Unit, postDataBound: () => Unit, isRootForm: Boolean) = {
     MyForm(sub)
   }
 

@@ -20,8 +20,22 @@ class Form protected (
   }
 
   def render[T](model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
+    
+    def beforeDataBound = {
+        validationObservable.reset()
+    }
+    
+    def postDataBound = {
+      val success = validationObservable.renderPreValidationCallbacks()
+      if (success) {
+        validationObservable.renderValidationCallbacks()
+        onSubmitCallback()
+      }
+    }
+
+    
     val sub = markupFactory.reduce(renderables.map(_.render(validationObservable, model, markupFactory)))
-    markupFactory.renderForm(validationObservable, model, sub, onSubmitCallback, nested)
+    markupFactory.renderForm(validationObservable, model, sub, beforeDataBound _, postDataBound _, nested) 
   }
 
   def attach(renderable: Renderable) = {

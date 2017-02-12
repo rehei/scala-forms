@@ -8,7 +8,7 @@ import com.github.rehei.scala.forms.validation.observe.AbstractValidationObserva
 
 abstract class AbstractMarkupFactory[T] {
 
-  def renderForm(validationObservable: AbstractValidationObservable, model: AnyRef, sub: T, callback: () => Unit, isRootForm: Boolean): T
+  def renderForm(validationObservable: AbstractValidationObservable, model: AnyRef, sub: T, beforeDataBound: () => Unit, postDataBound: () => Unit, isRootForm: Boolean): T
 
   def renderSection(sub: T): T
 
