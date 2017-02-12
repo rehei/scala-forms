@@ -26,9 +26,9 @@ class Form protected (
     }
     
     def postDataBound = {
-      val success = validationObservable.renderPreValidationCallbacks()
+      
+      val success = validationObservable.validate() 
       if (success) {
-        validationObservable.renderValidationCallbacks()
         onSubmitCallback()
       }
     }
