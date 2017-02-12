@@ -43,7 +43,7 @@ class SimpleFormTest {
             .attach(
               company(_.name).bindUsing(TextField()))
             .attach(
-              company(_.employees).bindUsing(new InlineBinding(employeeForm, NoValidator))))
+              company(_.employees).bindUsing(new InlineBinding(employeeForm))))
 
     val result = form.render(model, new TestMarkupFactory())
     result match {

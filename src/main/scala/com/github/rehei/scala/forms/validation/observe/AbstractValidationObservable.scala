@@ -7,9 +7,9 @@ abstract class AbstractValidationObservable {
 
   def appendValidationResult(validationResult: ValidationResult)
   def appendValidationCallback(validationCallback: ValidationCallback)
+  def appendSubValidationObservable(validationObservable: AbstractValidationObservable)
 
   def validate(): Boolean
   def reset()
-  def createSubValidationObservable(validator: Validator, model: AnyRef): AbstractValidationObservable
 
 }

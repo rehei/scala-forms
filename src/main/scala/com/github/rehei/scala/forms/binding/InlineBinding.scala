@@ -13,8 +13,9 @@ import com.github.rehei.scala.forms.markup.AbstractInlineMarkupFactory
 import com.github.rehei.scala.forms.decorators.MaxDecorator
 import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
 import com.github.rehei.scala.forms.validation.Validator
+import com.github.rehei.scala.forms.markup.WrappedMarkupFactory
 
-class InlineBinding(val form: Form, val validator: Validator) extends AbstractBinding {
+class InlineBinding(val form: Form) extends AbstractBinding {
 
   override def bind[T](validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]
@@ -43,8 +44,16 @@ class InlineBinding(val form: Form, val validator: Validator) extends AbstractBi
   }
 
   def renderInlineElement[T](validationObservable: AbstractValidationObservable, markupFactory: AbstractMarkupFactory[T], inlineMarkupFactory: AbstractInlineMarkupFactory[T], value: AnyRef, removeFunc: () => Unit) = {
-    val newValidator = validationObservable.createSubValidationObservable(validator, value)
-    val inlineFormXml = form.nested(true).validateWith(newValidator).render(value, markupFactory)
+
+    val wrappedMarkupFactory = new WrappedMarkupFactory(markupFactory) {
+      override def createValidationObservable(validator: Validator,model: AnyRef) = {
+        val tmp = base.createValidationObservable(validator, model)
+        validationObservable.appendSubValidationObservable(tmp)
+        tmp
+      }
+    }
+
+    val inlineFormXml = form.nested(true).render(value, wrappedMarkupFactory)
     inlineMarkupFactory.renderInlineElement(inlineFormXml, removeFunc)
   }
 

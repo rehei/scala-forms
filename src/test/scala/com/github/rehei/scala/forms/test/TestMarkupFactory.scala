@@ -5,6 +5,8 @@ import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.binding.InlineBinding
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
 import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
+import com.github.rehei.scala.forms.validation.Validator
+import com.github.rehei.scala.forms.validation.observe.DefaultValidationObservable
 
 sealed abstract class MyFormObject
 
