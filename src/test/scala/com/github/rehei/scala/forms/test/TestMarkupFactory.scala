@@ -1,11 +1,10 @@
 package com.github.rehei.scala.forms.test
 
-import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
-import com.github.rehei.scala.forms.binding.TextField
-import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.Bindable
-import com.github.rehei.scala.forms.validation.Validator
+import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.binding.InlineBinding
+import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
+import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
 
 sealed abstract class MyFormObject
 
@@ -21,7 +20,7 @@ case class MySub(subs: MyFormObject*) extends MyFormObject
 
 class TestMarkupFactory extends AbstractMarkupFactory[MyFormObject] {
 
-  override def renderForm(model: AnyRef, validator: Validator, sub: MyFormObject, callback: () => Unit, isRootForm: Boolean) = {
+  override def renderForm(validationObservable: AbstractValidationObservable, model: AnyRef, sub: MyFormObject, callback: () => Unit, isRootForm: Boolean) = {
     MyForm(sub)
   }
 
@@ -29,11 +28,11 @@ class TestMarkupFactory extends AbstractMarkupFactory[MyFormObject] {
     MySection(sub)
   }
 
-  def renderBinding(context: Bindable, model: AnyRef, binding: AbstractBinding[_]) = {
+  def renderBinding(validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, binding: AbstractBinding[_]) = {
     MyTextbox()
   }
 
-  def createInlineMarkupFactory() = {
+  def createInlineMarkupFactory(validationObservable: AbstractValidationObservable, inlineBinding: InlineBinding) = {
     new TestInlineMarkupFactory()
   }
 

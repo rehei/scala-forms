@@ -12,6 +12,7 @@ import scala.xml.Text
 import scala.language.existentials
 import scala.reflect.runtime.universe._
 import com.github.rehei.scala.forms.decorators.LabelDecorator
+import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
 
 abstract class AbstractBinding[X <: AbstractBinding[_]] {
 
@@ -21,8 +22,8 @@ abstract class AbstractBinding[X <: AbstractBinding[_]] {
     this.decorators = injectable
   }
 
-  def bind[T](context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]): T = {
-    markupFactory.renderBinding(context, model, this)
+  def bind[T](validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]): T = {
+    markupFactory.renderBinding(validationObservable, context, model, this)
   }
 
   def label() = {
