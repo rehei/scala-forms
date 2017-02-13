@@ -4,6 +4,7 @@ import scala.xml.NodeSeq
 import scala.xml.Text
 import com.github.rehei.scala.forms.binding.Decoratable
 import com.github.rehei.scala.forms.decorators.LabelDecorator
+import com.github.rehei.scala.forms.decorators.InvokeDecorator
 
 abstract class Action[T <: Decoratable[_]] extends Decoratable[T] {
 
@@ -14,5 +15,5 @@ abstract class Action[T <: Decoratable[_]] extends Decoratable[T] {
   def label() = {
     this.getDecorator[LabelDecorator].map(_.label).getOrElse("Unnamed action")
   }
-
+  
 }
