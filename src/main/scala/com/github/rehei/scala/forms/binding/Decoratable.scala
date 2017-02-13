@@ -2,7 +2,7 @@ package com.github.rehei.scala.forms.binding
 
 import scala.collection.mutable.ListBuffer
 
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory

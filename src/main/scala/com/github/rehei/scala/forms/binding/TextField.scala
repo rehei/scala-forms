@@ -1,7 +1,7 @@
 package com.github.rehei.scala.forms.binding
 
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.decorators.AutoSizeDecorator
 import com.github.rehei.scala.forms.decorators.PlaceholderDecorator
 import com.github.rehei.scala.forms.decorators.PlaceholderDecorator

@@ -1,29 +1,35 @@
 package com.github.rehei.scala.forms
 
-import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
-import com.github.rehei.scala.forms.util.ReflectUtil
 import com.github.rehei.scala.forms.binding.AbstractBinding
-import scala.xml.NodeSeq
-import scala.xml.Text
-import scala.language.existentials
-import scala.reflect.runtime.universe._
-import com.github.rehei.scala.forms.decorators.LabelDecorator
-import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
+import com.github.rehei.scala.forms.util.ReflectUtil
 
-class Bindable(val undeterminedBindable: UndeterminedBindable,
-            val binding: AbstractBinding[_]) extends Renderable {
+case class Bindable(val modelClazz: Class[_], val query: String) {
 
-  def render[T](validationObservable: AbstractValidationObservable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
-    binding.bind(validationObservable, this, model, markupFactory)
+  def bindUsing(binding: AbstractBinding[_]) = {
+    new BindableComponent(this, binding)
   }
-  
-  def query = undeterminedBindable.query
-  
-  def getter = undeterminedBindable.getter
-  def setter = undeterminedBindable.setter
 
-  def getFirstParameterizedTypeArgument() = undeterminedBindable.getFirstParameterizedTypeArgument()
-  def getBindableType(): Class[_] = undeterminedBindable.getBindableType()
+  private val rawMethod = ReflectUtil.getGetterMethod(modelClazz, query)
+  val getter = (model: AnyRef) => ReflectUtil.get(model, query)
+  val setter = (model: AnyRef, value: Any) => {
+
+    val postProcessedValue = {
+      if (value != null && value.isInstanceOf[String]) {
+        value.asInstanceOf[String].trim()
+      } else {
+        value
+      }
+    }
+
+    ReflectUtil.set(model, query, postProcessedValue)
+  }
+
+  def getFirstParameterizedTypeArgument(): Class[_] = {
+    ReflectUtil.getFirstParameterizedTypeArgument(rawMethod)
+  }
+
+  def getBindableType(): Class[_] = {
+    rawMethod.getReturnType
+  }
 
 }
-  

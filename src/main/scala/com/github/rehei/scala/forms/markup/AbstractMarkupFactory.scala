@@ -1,7 +1,7 @@
 package com.github.rehei.scala.forms.markup
 
 import com.github.rehei.scala.forms.binding.AbstractBinding
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.validation.Validator
 import com.github.rehei.scala.forms.binding.InlineBinding
 import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
@@ -14,7 +14,7 @@ abstract class AbstractMarkupFactory[T] {
 
   def renderSection(sub: T): T
 
-  def renderBinding(validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, binding: AbstractBinding[_]): T
+  def renderBinding(validationObservable: AbstractValidationObservable, context: BindableComponent, model: AnyRef, binding: AbstractBinding[_]): T
 
   def createInlineMarkupFactory(validationObservable: AbstractValidationObservable, inlineBinding: InlineBinding): AbstractInlineMarkupFactory[T]
 

@@ -1,7 +1,7 @@
 package com.github.rehei.scala.forms.validation
 
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.Bindable
-import com.github.rehei.scala.forms.UndeterminedBindable
 
 case class Assertion(val modelClazz: Class[_], val query: String, validations: Validation*) {
 
@@ -10,7 +10,7 @@ case class Assertion(val modelClazz: Class[_], val query: String, validations: V
   }
 
   def field = {
-    new UndeterminedBindable(modelClazz, query)
+    new Bindable(modelClazz, query)
   }
 
 }

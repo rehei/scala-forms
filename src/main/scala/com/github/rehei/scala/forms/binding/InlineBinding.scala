@@ -4,7 +4,7 @@ import scala.collection.JavaConversions._
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.Form
 import com.github.rehei.scala.forms.Renderable
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
@@ -17,7 +17,7 @@ import com.github.rehei.scala.forms.markup.WrappedMarkupFactory
 
 class InlineBinding(val form: Form) extends AbstractBinding {
 
-  override def bind[T](validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
+  override def bind[T](validationObservable: AbstractValidationObservable, context: BindableComponent, model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
     val collection = context.getter(model).asInstanceOf[java.util.Collection[AnyRef]]
     val inlineMarkupFactory = markupFactory.createInlineMarkupFactory(validationObservable, this)
 
@@ -57,7 +57,7 @@ class InlineBinding(val form: Form) extends AbstractBinding {
     inlineMarkupFactory.renderInlineElement(inlineFormXml, removeFunc)
   }
 
-  def getSubModelClazz(context: Bindable) = {
+  def getSubModelClazz(context: BindableComponent) = {
     context.getFirstParameterizedTypeArgument()
   }
 

@@ -1,6 +1,6 @@
 package com.github.rehei.scala.forms.test
 
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
 import com.github.rehei.scala.forms.binding.AbstractBinding
 import com.github.rehei.scala.forms.binding.InlineBinding
 import com.github.rehei.scala.forms.markup.AbstractMarkupFactory
@@ -30,7 +30,7 @@ class TestMarkupFactory extends AbstractMarkupFactory[MyFormObject] {
     MySection(sub)
   }
 
-  def renderBinding(validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, binding: AbstractBinding[_]) = {
+  def renderBinding(validationObservable: AbstractValidationObservable, context: BindableComponent, model: AnyRef, binding: AbstractBinding[_]) = {
     MyTextbox()
   }
 

@@ -1,25 +1,45 @@
 package com.github.rehei.scala.forms.table
 
 import scala.xml.NodeSeq
-import com.github.rehei.scala.forms.Bindable
+import com.github.rehei.scala.forms.BindableComponent
+import com.github.rehei.scala.forms.table.action.OnCreate
+import com.github.rehei.scala.forms.table.action.OnDelete
+import com.github.rehei.scala.forms.table.action.OnUpdate
+import com.github.rehei.scala.forms.table.action.OnCreate
 
-object Table extends Table
+object Table extends Table()
 
-class Table[T <: AnyRef] protected (val fields: List[TableHead], val instances: List[T]) {
+class Table[T <: AnyRef] protected (
+    val fields: List[TableHead],
+    val instances: List[T],
+    val onCreateList: List[OnCreate],
+    val onUpdateList: List[OnUpdate],
+    val onDeleteList: List[OnDelete]) {
 
   def this() = {
-    this(List.empty, List.empty)
+    this(List.empty, List.empty, List.empty, List.empty, List.empty)
+  }
+
+  def attach(tableHead: TableHead) = {
+    new Table[T](fields :+ tableHead, instances, onCreateList, onUpdateList, onDeleteList)
+  }
+
+  def action(onCreate: OnCreate) = {
+    new Table[T](fields, instances, onCreateList :+ onCreate, onUpdateList, onDeleteList)
+  }
+
+  def action(onUpdate: OnUpdate) = {
+    new Table[T](fields, instances, onCreateList, onUpdateList :+ onUpdate, onDeleteList)
   }
   
-  def attach(tableHead: TableHead) = {
-    val ext = fields :+ tableHead
-    new Table[T](ext, instances)
+  def action(onDelete: OnDelete) = {
+    new Table[T](fields, instances, onCreateList, onUpdateList, onDeleteList :+ onDelete)
   }
   
   def on[X <: AnyRef](instances: List[X]) = {
-    new Table[X](fields, instances)
+    new Table[X](fields, instances, onCreateList, onUpdateList, onDeleteList)
   }
-  
+
   def columnCount = fields.size
 
   def columnName(index: Int) = fields(index).label()
@@ -49,7 +69,7 @@ class Table[T <: AnyRef] protected (val fields: List[TableHead], val instances: 
   def modelAt(rowIndex: Int) = {
     instances(rowIndex)
   }
-  
+
   def render[X](tableMarkupFactory: AbstractTableMarkupFactory[X]) = {
     tableMarkupFactory.render(this.asInstanceOf[Table[AnyRef]])
   }
