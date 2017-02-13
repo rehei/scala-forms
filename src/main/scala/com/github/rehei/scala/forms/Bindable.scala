@@ -10,36 +10,20 @@ import scala.reflect.runtime.universe._
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
 
-class Bindable(val modelClazz: Class[_],
-            val query: String,
+class Bindable(val undeterminedBindable: UndeterminedBindable,
             val binding: AbstractBinding[_]) extends Renderable {
-
-  private val rawMethod = ReflectUtil.getGetterMethod(modelClazz, query)
-  val getter = (model: AnyRef) => ReflectUtil.get(model, query)
-  val setter = (model: AnyRef, value: Any) => {
-
-    val postProcessedValue = {
-      if (value != null && value.isInstanceOf[String]) {
-        value.asInstanceOf[String].trim()
-      } else {
-        value
-      }
-    }
-
-    ReflectUtil.set(model, query, postProcessedValue)
-  }
 
   def render[T](validationObservable: AbstractValidationObservable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]) = {
     binding.bind(validationObservable, this, model, markupFactory)
   }
-
-  def getFirstParameterizedTypeArgument(): Class[_] = {
-    ReflectUtil.getFirstParameterizedTypeArgument(rawMethod)
-  }
   
-  def getBindableType(): Class[_] = {
-    rawMethod.getReturnType
-  }
+  def query = undeterminedBindable.query
+  
+  def getter = undeterminedBindable.getter
+  def setter = undeterminedBindable.setter
+
+  def getFirstParameterizedTypeArgument() = undeterminedBindable.getFirstParameterizedTypeArgument()
+  def getBindableType(): Class[_] = undeterminedBindable.getBindableType()
 
 }
   

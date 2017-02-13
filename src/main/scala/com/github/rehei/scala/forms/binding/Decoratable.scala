@@ -14,18 +14,25 @@ import scala.reflect.runtime.universe._
 import com.github.rehei.scala.forms.decorators.LabelDecorator
 import com.github.rehei.scala.forms.validation.observe.AbstractValidationObservable
 
-abstract class AbstractBinding[X <: Decoratable[_]] extends Decoratable[X] {
+trait Decoratable[X <: Decoratable[_]] {
 
-  def bind[T](validationObservable: AbstractValidationObservable, context: Bindable, model: AnyRef, markupFactory: AbstractMarkupFactory[T]): T = {
-    markupFactory.renderBinding(validationObservable, context, model, this)
+  private var decorators: Map[Type, AnyRef] = Map[Type, AnyRef]()
+
+  def decorateWith[T <: AnyRef](decorator: T)(implicit tag: TypeTag[T]): X = {
+    val keyValue = (tag.tpe, decorator)
+    val newDecorators = decorators + keyValue
+
+    val copy = ReflectUtil.create(this.getClass()).asInstanceOf[X]
+    copy.injectDecorators(newDecorators)
+    copy
   }
 
-  def label() = {
-    getDecorator[LabelDecorator].map(_.label)
+  def getDecorator[T <: AnyRef](implicit tag: TypeTag[T]): Option[T] = {
+    decorators.get(tag.tpe).map { _.asInstanceOf[T] }
   }
 
-  def label(label: String) = {
-    this.decorateWith(LabelDecorator(label))
+  protected def injectDecorators(injectable: Map[Type, AnyRef]) {
+    this.decorators = injectable
   }
-
+  
 }
