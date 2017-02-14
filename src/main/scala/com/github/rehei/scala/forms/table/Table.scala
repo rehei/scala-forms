@@ -12,40 +12,42 @@ object Table extends Table()
 
 class Table protected (
     val fields: List[TableHead],
-    val instances: List[_ <: TableRowModel],
+    val repo: TableRepository[_ <: TableRowModel],
     val onCreateList: List[OnCreate],
     val onUpdateList: List[OnUpdate],
     val onDeleteList: List[OnDelete]) {
 
+  protected lazy val list = repo.list()
+  
   def this() = {
-    this(List.empty, List.empty, List.empty, List.empty, List.empty)
+    this(List.empty, NullTableRepository, List.empty, List.empty, List.empty)
   }
 
   def attach(tableHead: TableHead) = {
-    new Table(fields :+ tableHead, instances, onCreateList, onUpdateList, onDeleteList)
+    new Table(fields :+ tableHead, repo, onCreateList, onUpdateList, onDeleteList)
   }
 
   def action(onCreate: OnCreate) = {
-    new Table(fields, instances, onCreateList :+ onCreate, onUpdateList, onDeleteList)
+    new Table(fields, repo, onCreateList :+ onCreate, onUpdateList, onDeleteList)
   }
 
   def action(onUpdate: OnUpdate) = {
-    new Table(fields, instances, onCreateList, onUpdateList :+ onUpdate, onDeleteList)
+    new Table(fields, repo, onCreateList, onUpdateList :+ onUpdate, onDeleteList)
   }
   
   def action(onDelete: OnDelete) = {
-    new Table(fields, instances, onCreateList, onUpdateList, onDeleteList :+ onDelete)
+    new Table(fields, repo, onCreateList, onUpdateList, onDeleteList :+ onDelete)
   }
   
-  def on[X <: TableRowModel](instances: List[X]) = {
-    new Table(fields, instances, onCreateList, onUpdateList, onDeleteList)
+  def on(newRepo: TableRepository[_ <: TableRowModel]) = {
+    new Table(fields, newRepo, onCreateList, onUpdateList, onDeleteList)
   }
 
   def columnCount = fields.size
 
   def columnName(index: Int) = fields(index).label()
 
-  def rowCount = instances.size
+  def rowCount = list.size
 
   def valueAt(rowIndex: Int, columnIndex: Int) = {
     valueFor(modelAt(rowIndex), columnIndex)
@@ -68,7 +70,7 @@ class Table protected (
   }
 
   def modelAt(rowIndex: Int) = {
-    instances(rowIndex)
+    list(rowIndex)
   }
 
   def render[X](tableMarkupFactory: AbstractTableMarkupFactory[X]) = {

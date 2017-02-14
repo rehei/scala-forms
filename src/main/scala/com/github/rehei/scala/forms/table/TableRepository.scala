@@ -6,4 +6,5 @@ trait TableRepository[T <: TableRowModel] {
   
   def create(): T
   
+  def list(): List[T]
 }
