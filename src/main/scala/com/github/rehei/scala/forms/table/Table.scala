@@ -68,6 +68,10 @@ class Table protected (
     }
     output
   }
+  
+  def delete(modelID: String) = {
+    repo.delete(modelID)
+  }
 
   def modelAt(rowIndex: Int) = {
     list(rowIndex)

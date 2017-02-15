@@ -6,5 +6,7 @@ trait TableRepository[T <: TableRowModel] {
   
   def create(): T
   
+  def delete(id: String)
+  
   def list(): List[T]
 }

@@ -6,6 +6,8 @@ object NullTableRepository extends TableRepository[TableRowModel] {
 
   def create(): TableRowModel = ???
   
+  def delete(id: String) = ???
+  
   def list() = List.empty
 
 }
