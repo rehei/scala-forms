@@ -69,8 +69,14 @@ class Table protected (
     output
   }
   
-  def delete(modelID: String) = {
-    repo.delete(modelID)
+  def update(model: TableRowModel) = {
+    val id = model.identify()
+    model.save()
+  }
+  
+  def delete(model: TableRowModel) = {
+    val id = model.identify()
+    model.delete()
   }
 
   def modelAt(rowIndex: Int) = {
