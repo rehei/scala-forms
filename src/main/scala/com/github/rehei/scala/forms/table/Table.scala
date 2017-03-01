@@ -3,44 +3,40 @@ package com.github.rehei.scala.forms.table
 import scala.xml.NodeSeq
 
 import com.github.rehei.scala.forms.BindableComponent
-import com.github.rehei.scala.forms.table.action.OnCreate
-import com.github.rehei.scala.forms.table.action.OnCreate
-import com.github.rehei.scala.forms.table.action.OnDelete
-import com.github.rehei.scala.forms.table.action.OnUpdate
+import com.github.rehei.scala.forms.table.action.OnEntity
+import com.github.rehei.scala.forms.table.action.OnEntity
+import com.github.rehei.scala.forms.table.action.OnInstance
+import scala.collection.mutable.ListBuffer
 
 object Table extends Table()
 
 class Table protected (
     val fields: List[TableHead],
     val repo: TableRepository[_ <: TableRowModel],
-    val onCreateList: List[OnCreate],
-    val onUpdateList: List[OnUpdate],
-    val onDeleteList: List[OnDelete]) {
+    val entityActionList: List[OnEntity],
+    val instanceActionList: List[OnInstance],
+    val listeners: ListBuffer[TableChangedListener]) {
 
   protected lazy val list = repo.list()
-  
+
   def this() = {
-    this(List.empty, NullTableRepository, List.empty, List.empty, List.empty)
+    this(List.empty, NullTableRepository, List.empty, List.empty, ListBuffer())
   }
 
   def attach(tableHead: TableHead) = {
-    new Table(fields :+ tableHead, repo, onCreateList, onUpdateList, onDeleteList)
+    new Table(fields :+ tableHead, repo, entityActionList, instanceActionList, listeners)
   }
 
-  def action(onCreate: OnCreate) = {
-    new Table(fields, repo, onCreateList :+ onCreate, onUpdateList, onDeleteList)
+  def action(onCreate: OnEntity) = {
+    new Table(fields, repo, entityActionList :+ onCreate, instanceActionList, listeners)
   }
 
-  def action(onUpdate: OnUpdate) = {
-    new Table(fields, repo, onCreateList, onUpdateList :+ onUpdate, onDeleteList)
+  def action(onDelete: OnInstance) = {
+    new Table(fields, repo, entityActionList, instanceActionList :+ onDelete, listeners)
   }
-  
-  def action(onDelete: OnDelete) = {
-    new Table(fields, repo, onCreateList, onUpdateList, onDeleteList :+ onDelete)
-  }
-  
+
   def on(newRepo: TableRepository[_ <: TableRowModel]) = {
-    new Table(fields, newRepo, onCreateList, onUpdateList, onDeleteList)
+    new Table(fields, newRepo, entityActionList, instanceActionList, listeners)
   }
 
   def columnCount = fields.size
@@ -68,15 +64,17 @@ class Table protected (
     }
     output
   }
-  
-  def update(model: TableRowModel) = {
+
+  def save(model: TableRowModel) = {
     val id = model.identify()
     model.save()
+    listeners.foreach(_.changed(model))
   }
-  
+
   def delete(model: TableRowModel) = {
     val id = model.identify()
     model.delete()
+    listeners.foreach(_.removed(model))
   }
 
   def modelAt(rowIndex: Int) = {
@@ -85,6 +83,10 @@ class Table protected (
 
   def render[X](tableMarkupFactory: AbstractTableMarkupFactory[X]) = {
     tableMarkupFactory.render(this)
+  }
+
+  def addTableChangedListener(listener: TableChangedListener) = {
+    listeners.append(listener)
   }
 
 }
