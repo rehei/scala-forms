@@ -21,7 +21,7 @@ abstract class AbstractBinding[X <: Decoratable[_]] extends Decoratable[X] {
   }
 
   def label() = {
-    getDecorator[LabelDecorator].map(_.label)
+    getDecorator[LabelDecorator].map(_.label).getOrElse("Unknown")
   }
 
   def label(label: String) = {
